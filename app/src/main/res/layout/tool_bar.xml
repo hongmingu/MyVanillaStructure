@@ -1,0 +1,26 @@
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="42dp"
+    android:background="@color/colorPrimary"
+    android:elevation="4dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="MAIN"
+        android:textColor="@android:color/white"
+        android:textSize="20dp" />
+
+    <ImageButton
+        android:id="@+id/toolbar_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginRight="12dp"
+        android:background="@android:drawable/ic_lock_idle_alarm"
+        android:foreground="?attr/selectableItemBackground" />
+
+
+</android.support.v7.widget.Toolbar>
