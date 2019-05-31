@@ -5,23 +5,30 @@
     android:id="@+id/signup_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/White"
     tools:context=".SignUpActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/login_back"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="11dp"
-            android:background="@drawable/ic_back_skyblue100"/>
+        <FrameLayout
+            android:id="@+id/signup_back"
+            android:layout_width="60dp"
+            android:layout_height="42dp"
+            android:background="@drawable/bg_white_clicked_10skyblue">
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_back_skyblue100"/>
+        </FrameLayout>
+
+
         <ImageView
             android:id="@+id/reg_blue_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="45dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="80dp"
             app:srcCompat="@drawable/ic_bluelogo" />

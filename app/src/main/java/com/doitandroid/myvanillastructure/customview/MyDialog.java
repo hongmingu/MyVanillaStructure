@@ -17,7 +17,7 @@ public class MyDialog extends Dialog {
 
     private TextView textView_title, textView_content, textView_positive, textView_negative;
 
-    private String option;
+    private String title, content, positive, negative;
 
     private MyDialogListener dialogListener;
 
@@ -26,11 +26,15 @@ public class MyDialog extends Dialog {
         this.context = context;
     }
 
-    public MyDialog(@NonNull Context context, String option) {
+    public MyDialog(@NonNull Context context, String title, String content, String positive, String negative) {
         super(context);
         this.context = context;
-        this.option = option;
+        this.title = title;
+        this.content = content;
+        this.positive = positive;
+        this.negative = negative;
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +46,29 @@ public class MyDialog extends Dialog {
         textView_positive = findViewById(R.id.dialog_positive);
         textView_negative = findViewById(R.id.dialog_negative);
 
-        if(option != null){
+        if(title != null){
+            textView_title.setText(title);
+        }
 
+        if(content != null){
+            textView_content.setText(content);
+        }
+        if(title != null){
+            textView_positive.setText(positive);
+        }
+        if(title != null){
+            textView_negative.setText(negative);
         }
 
         textView_positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String string = "some word";
-                String string_s = "some word_s";
+                // String string = "some word";
+                // String string_s = "some word_s";
                 // 여기서 다이얼로그 내 뷰의 값을 가져오면 된다.
-                dialogListener.onPositiveClicked(string, string_s);
+                // 여기서 다이얼로그의 뷰들을 다루는 것이므로.
+                // dialogListener.onPositiveClicked(string, string_s);
+                dialogListener.onPositiveClicked();
                 dismiss();
             }
         });

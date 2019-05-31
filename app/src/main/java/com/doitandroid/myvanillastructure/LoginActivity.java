@@ -1,5 +1,8 @@
 package com.doitandroid.myvanillastructure;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -26,8 +30,9 @@ import com.doitandroid.myvanillastructure.utils.UtilsCollection;
 public class LoginActivity extends AppCompatActivity {
     private BackPressCloseHandler backPressCloseHandler;
     ClearableEditText login_account, login_password;
-    ImageView btn_back;
+    FrameLayout btn_back, btn_complete;
     ScrollView main_layout;
+    Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-
+        activity = this;
         main_layout = findViewById(R.id.login_layout);
         ViewTreeObserver observer = main_layout.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -80,35 +85,57 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        View btn_click = findViewById(R.id.btn_click);
-        btn_click.setOnClickListener(new View.OnClickListener() {
+        btn_back = findViewById(R.id.login_complete);
+        btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                SharedPreferences sp = getSharedPreferences("init_app", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putInt("auto_login", 1);
+                editor.commit();
+
+                Intent intent = new Intent(activity, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            /*intent.addFlags(
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP |
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                    Intent.FLAG_ACTIVITY_NO_HISTORY |
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                    Intent.FLAG_ACTIVITY_NEW_TASK
+            );*/
+
+
+                startActivity(intent);
             }
         });
+
         backPressCloseHandler = new BackPressCloseHandler(this);
     }
 
     @Override
     public void onBackPressed() {
+        String login_account_trim = login_account.getText().toString().trim();
+        String login_password_raw = login_password.getText().toString();
+        if (!(login_account_trim.equals("") && login_password_raw.equals(""))){
+            MyDialog dialog = new MyDialog(this, "Go back", "Really?", "okay--", "noooo");
+            dialog.setDialogListener(new MyDialogListener() {
+                @Override
+                public void onPositiveClicked() {
+                    activity.finish();
+                }
+
+                @Override
+                public void onNegativeClicked() {
+
+                }
+            });
+            dialog.show();
+        } else {
+            activity.finish();
+        }
 
 
-        MyDialog dialog = new MyDialog(this);
-        dialog.setDialogListener(new MyDialogListener() {
-            @Override
-            public void onPositiveClicked(String string1, String string2) {
-                Toast.makeText(getApplicationContext(), string1+ string2, Toast.LENGTH_LONG).show();
-
-            }
-
-            @Override
-            public void onNegativeClicked() {
-                Toast.makeText(getApplicationContext(), "negative", Toast.LENGTH_LONG).show();
-
-            }
-        });
-        dialog.show();
         // this.finish();
         // super.onBackPressed();
         // backPressCloseHandler.onBackPressed();
